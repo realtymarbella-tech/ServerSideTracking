@@ -1,0 +1,29 @@
+{
+  "event_id": "7b8e1a3c-d90a-48f2-bb44-42f13e9a1102",
+  "event_name": "view_item",
+  "event_time": 1772152860,
+  "event_source_url": "https://luxuryestates.example.com/properties/villa-monte-blanco",
+  "action_source": "website",
+  "user_data": {
+    "client_ip_address": "85.136.120.45",
+    "client_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "fbp": "fb.1.1772140000.9876543210",
+    "fbc": "fb.1.1772140000.IwAR1abcXYZ987654321"
+  },
+  "custom_data": {
+    "content_ids": ["VMB-2026"],
+    "content_type": "product",
+    "content_name": "Villa Monte Blanco",
+    "content_category": "Luxury Villas",
+    "currency": "EUR",
+    "value": 8500000.0,
+    "location_zone": "Nueva Andalucia, Marbella",
+    "property_type": "Villa Independiente",
+    "bedrooms": 6,
+    "bathrooms": 7,
+    "built_surface_m2": 780.0,
+    "plot_surface_m2": 1500.0,
+    "dwell_time_seconds": 65,
+    "scroll_depth_percentage": 90
+  }
+}

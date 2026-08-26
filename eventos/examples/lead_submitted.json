@@ -1,0 +1,28 @@
+{
+  "event_id": "c3a9f4e2-6e21-4f1a-b328-98f5a289b654",
+  "event_name": "lead_submitted",
+  "event_time": 1772153000,
+  "event_source_url": "https://luxuryestates.example.com/properties/villa-alpha",
+  "action_source": "website",
+  "user_data": {
+    "em": "4f9b87b7a2cd3e7ef154a1a5cf8a946b5394ef3425f1eb7c569f14d8723c0b56",
+    "ph": "96d9632f363564ecd301fab815ccd75d507173d0cb7d11863bc3c60298fb9f1a",
+    "client_ip_address": "85.136.120.45",
+    "client_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "fbp": "fb.1.1772140000.9876543210",
+    "fbc": "fb.1.1772140000.IwAR1abcXYZ987654321",
+    "external_id": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "custom_data": {
+    "lead_type": "private_dossier_inquiry",
+    "currency": "EUR",
+    "value": 1500.0,
+    "property_id": "VILLA-ALPHA-01",
+    "property_name": "Villa Alpha",
+    "property_tier": "ultra_prime",
+    "budget_range": "5M-10M",
+    "preferred_contact_method": "whatsapp",
+    "form_id": "form_dossier_v1",
+    "form_name": "Dossier Request Popup"
+  }
+}

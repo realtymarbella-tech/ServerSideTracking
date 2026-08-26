@@ -1,0 +1,23 @@
+{
+  "event_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+  "event_name": "page_view",
+  "event_time": 1772152000,
+  "event_source_url": "https://luxuryestates.example.com/collection/marbella-villas",
+  "action_source": "website",
+  "user_data": {
+    "client_ip_address": "85.136.120.45",
+    "client_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "fbp": "fb.1.1772140000.9876543210"
+  },
+  "custom_data": {
+    "page_title": "Exclusive Luxury Villas in Marbella | The Edit Collection",
+    "page_category": "Catalog Listing",
+    "page_language": "es-ES",
+    "traffic_source": "meta_ads",
+    "utm_source": "facebook",
+    "utm_medium": "paid_social",
+    "utm_campaign": "q1_ultra_prime_leads",
+    "utm_content": "carousel_villas_marbella",
+    "referrer_url": "https://m.facebook.com/"
+  }
+}

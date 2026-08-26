@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SST_Universal_Event_Validator",
+  "description": "Contrato de datos y validación de esquemas para Server-Side Tracking.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "event_name",
+    "event_time",
+    "event_source_url",
+    "action_source",
+    "user_data",
+    "custom_data"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+      "description": "UUIDv4 RFC 4122"
+    },
+    "event_name": {
+      "type": "string",
+      "enum": [
+        "page_view",
+        "view_item",
+        "lead_submitted",
+        "appointment_scheduled",
+        "qualified_lead_scored",
+        "deal_closed"
+      ]
+    },
+    "event_time": {
+      "type": "integer",
+      "minimum": 1700000000
+    },
+    "event_source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "action_source": {
+      "type": "string",
+      "enum": [
+        "website",
+        "app",
+        "phone_call",
+        "chat",
+        "email",
+        "system_generated",
+        "physical_store"
+      ]
+    },
+    "user_data": {
+      "type": "object",
+      "required": ["client_ip_address", "client_user_agent"],
+      "properties": {
+        "client_ip_address": {
+          "type": "string"
+        },
+        "client_user_agent": {
+          "type": "string",
+          "minLength": 10
+        },
+        "em": {
+          "type": ["string", "array"],
+          "items": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "ph": {
+          "type": ["string", "array"],
+          "items": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "fbp": {
+          "type": "string",
+          "pattern": "^fb\\.[0-9]\\.[0-9]+\\.[0-9]+$"
+        },
+        "fbc": {
+          "type": "string",
+          "pattern": "^fb\\.[0-9]\\.[0-9]+\\..+$"
+        },
+        "external_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "custom_data": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "event_name": { "const": "page_view" } } },
+      "then": {
+        "properties": {
+          "custom_data": {
+            "type": "object",
+            "required": ["page_title", "page_category"],
+            "properties": {
+              "page_title": { "type": "string" },
+              "page_category": { "type": "string" },
+              "page_language": { "type": "string" },
+              "traffic_source": { "type": "string" },
+              "utm_source": { "type": "string" },
+              "utm_medium": { "type": "string" },
+              "utm_campaign": { "type": "string" },
+              "utm_content": { "type": "string" },
+              "referrer_url": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "view_item" } } },
+      "then": {
+        "properties": {
+          "custom_data": {
+            "type": "object",
+            "required": ["content_ids", "content_type", "content_name", "content_category", "currency", "value"],
+            "properties": {
+              "content_ids": { "type": "array", "items": { "type": "string" } },
+              "content_type": { "type": "string" },
+              "content_name": { "type": "string" },
+              "content_category": { "type": "string" },
+              "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "value": { "type": "number", "minimum": 0 },
+              "location_zone": { "type": "string" },
+              "property_type": { "type": "string" },
+              "bedrooms": { "type": "integer" },
+              "bathrooms": { "type": "integer" },
+              "built_surface_m2": { "type": "number" },
+              "plot_surface_m2": { "type": "number" },
+              "dwell_time_seconds": { "type": "integer" },
+              "scroll_depth_percentage": { "type": "integer", "minimum": 0, "maximum": 100 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "lead_submitted" } } },
+      "then": {
+        "properties": {
+          "custom_data": {
+            "type": "object",
+            "required": ["lead_type", "currency", "value"],
+            "properties": {
+              "lead_type": { "type": "string" },
+              "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "value": { "type": "number", "minimum": 0 },
+              "property_id": { "type": "string" },
+              "property_name": { "type": "string" },
+              "property_tier": { "type": "string" },
+              "budget_range": { "type": "string" },
+              "preferred_contact_method": { "type": "string" },
+              "form_id": { "type": "string" },
+              "form_name": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "appointment_scheduled" } } },
+      "then": {
+        "properties": {
+          "custom_data": {
+            "type": "object",
+            "required": ["booking_id", "meeting_type", "currency", "value"],
+            "properties": {
+              "booking_id": { "type": "string" },
+              "meeting_type": { "type": "string" },
+              "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "value": { "type": "number", "minimum": 0 },
+              "property_id": { "type": "string" },
+              "advisor_assigned": { "type": "string" },
+              "scheduled_slot_timestamp": { "type": "integer" },
+              "booking_source": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "qualified_lead_scored" } } },
+      "then": {
+        "properties": {
+          "custom_data": {
+            "type": "object",
+            "required": ["lead_id", "qualification_tier", "scoring_model_version", "predicted_conversion_probability", "currency", "value"],
+            "properties": {
+              "lead_id": { "type": "string" },
+              "qualification_tier": { "type": "string", "enum": ["MQL", "SQL", "VIP", "DISQUALIFIED"] },
+              "scoring_model_version": { "type": "string" },
+              "predicted_conversion_probability": { "type": "number", "minimum": 0, "maximum": 1 },
+              "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "value": { "type": "number", "minimum": 0 },
+              "investment_capacity_score": { "type": "number" },
+              "intent_velocity_score": { "type": "number" },
+              "crm_status": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "event_name": { "const": "deal_closed" } } },
+      "then": {
+        "properties": {
+          "custom_data": {
+            "type": "object",
+            "required": ["transaction_id", "currency", "value"],
+            "properties": {
+              "transaction_id": { "type": "string" },
+              "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "value": { "type": "number", "minimum": 0 },
+              "property_id": { "type": "string" },
+              "commission_amount": { "type": "number" },
+              "payment_type": { "type": "string" },
+              "lead_source_attribution": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

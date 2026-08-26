@@ -1,0 +1,25 @@
+{
+  "event_id": "9d1f3b7c-0a2b-4e8a-bc91-31a89c7d2e4f",
+  "event_name": "appointment_scheduled",
+  "event_time": 1772153500,
+  "event_source_url": "https://luxuryestates.example.com/booking/confirmation",
+  "action_source": "website",
+  "user_data": {
+    "em": "4f9b87b7a2cd3e7ef154a1a5cf8a946b5394ef3425f1eb7c569f14d8723c0b56",
+    "ph": "96d9632f363564ecd301fab815ccd75d507173d0cb7d11863bc3c60298fb9f1a",
+    "client_ip_address": "85.136.120.45",
+    "client_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "fbp": "fb.1.1772140000.9876543210",
+    "external_id": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "custom_data": {
+    "booking_id": "BK-2026-9021",
+    "meeting_type": "in_person_private_tour",
+    "currency": "EUR",
+    "value": 5000.0,
+    "property_id": "VMB-2026",
+    "advisor_assigned": "Senior Broker",
+    "scheduled_slot_timestamp": 1772272800,
+    "booking_source": "calendly_integration"
+  }
+}

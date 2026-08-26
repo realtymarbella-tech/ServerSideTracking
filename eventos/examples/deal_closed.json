@@ -1,0 +1,23 @@
+{
+  "event_id": "e5d4c3b2-a1f0-4987-a654-3210fedcba12",
+  "event_name": "deal_closed",
+  "event_time": 1772240000,
+  "event_source_url": "https://crm.internal.example.com/contracts/closed-won",
+  "action_source": "system_generated",
+  "user_data": {
+    "em": "4f9b87b7a2cd3e7ef154a1a5cf8a946b5394ef3425f1eb7c569f14d8723c0b56",
+    "ph": "96d9632f363564ecd301fab815ccd75d507173d0cb7d11863bc3c60298fb9f1a",
+    "client_ip_address": "85.136.120.45",
+    "client_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "external_id": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "custom_data": {
+    "transaction_id": "TX-2026-0042",
+    "currency": "EUR",
+    "value": 8500000.0,
+    "property_id": "VMB-2026",
+    "commission_amount": 425000.0,
+    "payment_type": "escrow_deposit",
+    "lead_source_attribution": "meta_paid_social"
+  }
+}
