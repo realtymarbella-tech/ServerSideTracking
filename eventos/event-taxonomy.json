@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SST_Enterprise_Event_Taxonomy",
+  "version": "1.0.0",
+  "description": "Taxonomía oficial de eventos Server-Side Tracking, matriz de parámetros y contratos de datos para Meta Conversions API (CAPI), Google Analytics 4 Measurement Protocol y BigQuery.",
+  "naming_conventions": {
+    "case_style": "snake_case",
+    "regex_pattern": "^[a-z0-9_]{3,64}$",
+    "semantic_pattern": "[object]_[action]",
+    "rules": [
+      "No usar espacios, mayúsculas, guiones medios ni caracteres especiales.",
+      "No incluir marcas de tiempo, IDs dinámicos ni variables de entorno en el nombre del evento.",
+      "Los nombres deben ser agnósticos a la plataforma de origen (cliente web, app, webhook CRM)."
+    ]
+  },
+  "global_envelope_parameters": {
+    "mandatory": {
+      "event_id": {
+        "type": "string",
+        "format": "uuid_v4",
+        "regex": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "description": "Identificador único compartido e idéntico entre el evento de cliente (browser/app) y el evento de servidor para deduplicación exacta (TTL 48h)."
+      },
+      "event_name": {
+        "type": "string",
+        "description": "Nombre canónico del evento en snake_case registrado en esta taxonomía."
+      },
+      "event_time": {
+        "type": "integer",
+        "unit": "seconds",
+        "description": "Timestamp Unix UTC en segundos. No debe tener una antigüedad superior a 7 días respecto al reloj del servidor."
+      },
+      "event_source_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL canónica completa donde ocurrió la interacción (ej. https://dominio.com/propiedad/villa-alpha)."
+      },
+      "action_source": {
+        "type": "string",
+        "enum": ["website", "app", "phone_call", "chat", "email", "system_generated", "physical_store"],
+        "description": "Origen del disparador de la acción, obligatorio para Meta CAPI."
+      },
+      "user_data.client_ip_address": {
+        "type": "string",
+        "format": "ipv4_or_ipv6",
+        "description": "Dirección IP pública real del cliente final extraída de x-forwarded-for (excluyendo IPs de Cloudflare/CDN/Proxies)."
+      },
+      "user_data.client_user_agent": {
+        "type": "string",
+        "min_length": 15,
+        "description": "Cabecera User-Agent raw completa del navegador del cliente."
+      }
+    },
+    "conditional_pii_parameters": {
+      "user_data.em": {
+        "type": "string",
+        "format": "sha256_hex_64",
+        "regex": "^[a-f0-9]{64}$",
+        "normalization_rules": "trim() -> toLowerCase() -> SHA-256",
+        "description": "Email del usuario normalizado y hasheado en SHA-256."
+      },
+      "user_data.ph": {
+        "type": "string",
+        "format": "sha256_hex_64",
+        "regex": "^[a-f0-9]{64}$",
+        "normalization_rules": "eliminar caracteres no numéricos excepto '+' inicial -> formato E.164 (ej. +34600000000) -> SHA-256",
+        "description": "Teléfono internacional normalizado y hasheado en SHA-256."
+      },
+      "user_data.fbp": {
+        "type": "string",
+        "regex": "^fb\\.1\\.[0-9]+\\.[0-9]+$",
+        "description": "Cookie de navegador de Meta _fbp."
+      },
+      "user_data.fbc": {
+        "type": "string",
+        "regex": "^fb\\.1\\.[0-9]+\\..+$",
+        "description": "Cookie de click de Meta _fbc o reconstruida a partir del query param fbclid."
+      },
+      "user_data.external_id": {
+        "type": "string",
+        "format": "sha256_hex_64",
+        "description": "Identificador único de usuario en CRM/Base de Datos (hasheado en SHA-256)."
+      }
+    }
+  },
+  "events_catalog": {
+    "page_view": {
+      "description": "Carga inicial y renderizado de una página o vista en el navegador/app.",
+      "mandatory_custom_params": [
+        "page_title",
+        "page_category"
+      ],
+      "optional_custom_params": [
+        "page_language",
+        "traffic_source",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "referrer_url"
+      ],
+      "downstream_mapping": {
+        "meta_capi_event": "PageView",
+        "ga4_event": "page_view",
+        "bigquery_table": "raw_events_page_view"
+      }
+    },
+    "view_item": {
+      "description": "Visualización detallada de un activo de alto valor o ficha de propiedad inmobiliaria.",
+      "mandatory_custom_params": [
+        "content_ids",
+        "content_type",
+        "content_name",
+        "content_category",
+        "currency",
+        "value"
+      ],
+      "optional_custom_params": [
+        "location_zone",
+        "property_type",
+        "bedrooms",
+        "bathrooms",
+        "built_surface_m2",
+        "plot_surface_m2",
+        "dwell_time_seconds",
+        "scroll_depth_percentage"
+      ],
+      "downstream_mapping": {
+        "meta_capi_event": "ViewContent",
+        "ga4_event": "view_item",
+        "bigquery_table": "raw_events_view_item"
+      }
+    },
+    "lead_submitted": {
+      "description": "Envío exitoso de un formulario de captación, solicitud de dossier privado o contacto directo.",
+      "mandatory_custom_params": [
+        "lead_type",
+        "currency",
+        "value"
+      ],
+      "optional_custom_params": [
+        "property_id",
+        "property_name",
+        "property_tier",
+        "budget_range",
+        "preferred_contact_method",
+        "form_id",
+        "form_name"
+      ],
+      "downstream_mapping": {
+        "meta_capi_event": "Lead",
+        "ga4_event": "generate_lead",
+        "bigquery_table": "raw_events_lead_submitted"
+      }
+    },
+    "appointment_scheduled": {
+      "description": "Confirmación de cita, videollamada estratégica o visita privada presencial.",
+      "mandatory_custom_params": [
+        "booking_id",
+        "meeting_type",
+        "currency",
+        "value"
+      ],
+      "optional_custom_params": [
+        "property_id",
+        "advisor_assigned",
+        "scheduled_slot_timestamp",
+        "booking_source"
+      ],
+      "downstream_mapping": {
+        "meta_capi_event": "Schedule",
+        "ga4_event": "appointment_scheduled",
+        "bigquery_table": "raw_events_appointment_scheduled"
+      }
+    },
+    "qualified_lead_scored": {
+      "description": "Evento server-side emitido por el modelo de ML o CRM tras calificar al lead como SQL/High-Tier.",
+      "mandatory_custom_params": [
+        "lead_id",
+        "qualification_tier",
+        "scoring_model_version",
+        "predicted_conversion_probability",
+        "currency",
+        "value"
+      ],
+      "optional_custom_params": [
+        "investment_capacity_score",
+        "intent_velocity_score",
+        "crm_status"
+      ],
+      "downstream_mapping": {
+        "meta_capi_event": "QualifiedLead",
+        "ga4_event": "qualify_lead",
+        "bigquery_table": "raw_events_qualified_lead_scored"
+      }
+    },
+    "deal_closed": {
+      "description": "Formalización de contrato de arras, depósito o cierre de compraventa.",
+      "mandatory_custom_params": [
+        "transaction_id",
+        "currency",
+        "value"
+      ],
+      "optional_custom_params": [
+        "property_id",
+        "commission_amount",
+        "payment_type",
+        "lead_source_attribution"
+      ],
+      "downstream_mapping": {
+        "meta_capi_event": "Purchase",
+        "ga4_event": "purchase",
+        "bigquery_table": "raw_events_deal_closed"
+      }
+    }
+  }
+}
