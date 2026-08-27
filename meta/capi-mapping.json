@@ -1,0 +1,59 @@
+{
+  "mapping": {
+    "FormStart": {
+      "meta_event": "Contact",
+      "parametros_meta": {
+        "event_name": "Contact",
+        "event_id": "formId + timestamp",
+        "event_time": "timestamp",
+        "user_data": {
+          "email": "email_hash"
+        },
+        "custom_data": {
+          "value": "0",
+          "currency": "EUR",
+          "content_name": "Lead Generation Form"
+        }
+      }
+    },
+    "FormSubmit": {
+      "meta_event": "Lead",
+      "parametros_meta": {
+        "event_name": "Lead",
+        "event_id": "formId + email + timestamp",
+        "event_time": "timestamp",
+        "user_data": {
+          "email": "email_hash",
+          "fn": "firstName_hash",
+          "ln": "lastName_hash",
+          "ph": "phone_hash"
+        },
+        "custom_data": {
+          "value": "leadValue",
+          "currency": "EUR",
+          "content_name": "Lead - FormSubmit",
+          "content_category": "Lead",
+          "custom_property_leadScore": "leadScore"
+        }
+      }
+    },
+    "Lead": {
+      "meta_event": "Lead",
+      "parametros_meta": {
+        "event_name": "Lead",
+        "event_id": "leadId",
+        "event_time": "timestamp",
+        "user_data": {
+          "email": "email_hash"
+        },
+        "custom_data": {
+          "value": "0",
+          "currency": "EUR",
+          "custom_property_leadScore": "leadScore",
+          "custom_property_leadStatus": "leadStatus"
+        }
+      }
+    }
+  },
+  "notas": "Adaptar según estructura real de tu sistema Meta"
+}
