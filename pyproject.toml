@@ -1,2 +1,2 @@
 [tool.vercel]
-entrypoint = "scoring/scoring-api:app"
+entrypoint = "scoring-api:app"
