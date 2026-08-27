@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "scoring/scoring-api.py",
+      "src": "api.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "scoring/scoring-api.py" }
+    { "src": "/(.*)", "dest": "api.py" }
   ]
 }
