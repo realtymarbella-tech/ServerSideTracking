@@ -1,0 +1,2 @@
+[tool.vercel]
+entrypoint = "scoring/scoring-api:app"
