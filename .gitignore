@@ -1,0 +1,4 @@
+.env
+*.bak*
+server.log
+__pycache__/
