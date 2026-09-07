@@ -1,0 +1,10 @@
+[Server] SST Pro corriendo en puerto 3000
+[Webhook] TESTING MODE - firma NO verificada
+[Webhook] Lead recibido — leadgen_id: TEST_LEAD_123 form_id: 1601819651446955
+[LeadRetrieval] ERROR: {
+  "message": "Invalid OAuth access token - Cannot parse access token",
+  "type": "OAuthException",
+  "code": 190,
+  "fbtrace_id": "A6FHSEUIAFDjrelFp7ebTv7"
+}
+[Webhook] No se pudo recuperar lead: TEST_LEAD_123

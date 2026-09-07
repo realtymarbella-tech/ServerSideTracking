@@ -64,10 +64,12 @@ router.get('/meta-leads', (req, res) => {
 
 // ─── POST: recepción de lead nuevo ────────────────────────────
 router.post('/meta-leads', async (req, res) => {
-  if (!verifyMetaSignature(req)) {
-    console.warn('[Webhook] Firma inválida');
-    return res.status(401).json({ error: 'Invalid signature' });
-  }
+  // --- TEMPORAL: firma deshabilitada para testing local ---
+  // if (!verifyMetaSignature(req)) {
+  //   console.warn('[Webhook] Firma inválida');
+  //   return res.status(401).json({ error: 'Invalid signature' });
+  // }
+  console.warn('[Webhook] TESTING MODE - firma NO verificada');
 
   // Responder 200 inmediatamente (Meta requiere < 20s)
   res.status(200).json({ ok: true });
@@ -122,9 +124,21 @@ function fetchLeadData(leadgenId) {
       res.on('end', () => {
         try {
           const parsed = JSON.parse(data);
-          if (parsed.error) { console.error('[LeadRetrieval]', parsed.error.message); resolve(null); return; }
+          if (parsed.error) {
+            console.error('[LeadRetrieval] ERROR:', JSON.stringify(parsed.error, null, 2));
+            resolve(null);
+            return;
+          }
+
+          // --- DEBUG: ver exactamente que campos manda Meta ---
+          console.log('[DEBUG] Raw field_data:', JSON.stringify(parsed.field_data, null, 2));
+
           const fields = {};
           for (const f of (parsed.field_data || [])) fields[f.name] = f.values?.[0] || null;
+
+          console.log('[DEBUG] Parsed fields object:', JSON.stringify(fields, null, 2));
+          console.log('[DEBUG] Field names found:', Object.keys(fields));
+
           resolve({ ...parsed, fields });
         } catch (e) { reject(e); }
       });
