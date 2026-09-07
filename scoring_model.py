@@ -30,10 +30,8 @@ SOURCE_SCORES = {
 
 # ─── Desarrollos y valor estimado ─────────────────────────────
 PROPERTY_VALUES = {
-  'SCR-001': 1500000,
-  'SCR-002': 2000000,
-  'SCR-003': 2500000,
-  'SCR-004': 3000000
+  'CIPRIANI':   1400000,  # Cipriani Residences — desde $1.4M
+  'ONE_TWENTY': 860000,   # One Twenty — desde $860K
 }
 
 

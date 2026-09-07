@@ -64,12 +64,10 @@ router.get('/meta-leads', (req, res) => {
 
 // ─── POST: recepción de lead nuevo ────────────────────────────
 router.post('/meta-leads', async (req, res) => {
-  // --- TEMPORAL: firma deshabilitada para testing local ---
-  // if (!verifyMetaSignature(req)) {
-  //   console.warn('[Webhook] Firma inválida');
-  //   return res.status(401).json({ error: 'Invalid signature' });
-  // }
-  console.warn('[Webhook] TESTING MODE - firma NO verificada');
+  if (!verifyMetaSignature(req)) {
+    console.warn('[Webhook] Firma inválida');
+    return res.status(401).json({ error: 'Invalid signature' });
+  }
 
   // Responder 200 inmediatamente (Meta requiere < 20s)
   res.status(200).json({ ok: true });
