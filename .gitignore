@@ -7,3 +7,4 @@ __pycache__/
 server.log
 __pycache__/
 configuracion/.env
+*.sh
