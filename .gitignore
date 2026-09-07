@@ -2,3 +2,7 @@
 *.bak*
 server.log
 __pycache__/
+.env
+*.bak*
+server.log
+__pycache__/
